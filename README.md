@@ -1,51 +1,85 @@
-# DCIT201-into_to_java
+import java.util.Scanner;
 
-# Introduction to Java Assignment
+public class TemperatureConverter {
 
-Welcome to your first Java assignment! In this exercise, you will apply the basic concepts of Java programming to solve a problem. This assignment will test your understanding of variables, control structures, and basic input/output operations.
+    private static Scanner scanner = new Scanner(System.in);
 
----
+    public static void main(String[] args) {
+        // Welcome message
+        System.out.println("Welcome to the Temperature Converter!");
 
-## Problem Statement
+        // Get user choice
+        int choice = getChoice();
 
-### **Temperature Converter**
+        // Get temperature value
+        double temperature = getTemperature();
 
-Write a Java program that converts temperatures between Celsius and Fahrenheit. Your program should:
+        // Perform conversion based on choice
+        double convertedTemperature = convertTemperature(choice, temperature);
 
-1. Prompt the user to choose between the following options:
-   - Convert Celsius to Fahrenheit.
-   - Convert Fahrenheit to Celsius.
-2. Take the temperature value as input from the user.
-3. Perform the conversion based on the user's choice using the following formulas:
-   - **Celsius to Fahrenheit:** `F = (C × 9/5) + 32`
-   - **Fahrenheit to Celsius:** `C = (F - 32) × 5/9`
-4. Display the converted temperature in a user-friendly format.
+        // Display converted temperature
+        System.out.println("The converted temperature is: " + convertedTemperature + (choice == 1 ? "°F" : "°C"));
+    }
 
----
+    /**
+     * Prompts the user to choose between Celsius to Fahrenheit (1) or Fahrenheit to Celsius (2).
+     * Validates user input to ensure it's either 1 or 2.
+     *
+     * @return The user's choice (1 or 2)
+     */
+    private static int getChoice() {
+        int choice;
+        do {
+            System.out.println("\nChoose an option:");
+            System.out.println("1. Convert Celsius to Fahrenheit");
+            System.out.println("2. Convert Fahrenheit to Celsius");
+            System.out.print("Enter your choice (1 or 2): ");
 
+            choice = scanner.nextInt();
+            if (choice != 1 && choice != 2) {
+                System.out.println("Invalid choice. Please enter 1 or 2.");
+            }
+        } while (choice != 1 && choice != 2);
 
----
+        return choice;
+    }
 
-## Requirements
-- Use a `Scanner` object to read input from the user.
-- Validate user input to ensure correct data is entered (e.g., numbers for temperature, 1 or 2 for the option).
-- Include appropriate comments in your code to explain its functionality.
-- Handle edge cases (e.g., invalid input, extreme temperatures).
+    /**
+     * Prompts the user to enter the temperature value.
+     * Validates user input to ensure it's a number.
+     *
+     * @return The temperature value entered by the user
+     */
+    private static double getTemperature() {
+        double temperature;
+        do {
+            System.out.print("\nEnter the temperature value: ");
 
----
+            while (!scanner.hasNextDouble()) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next(); // Clear the invalid input
+            }
 
-## Submission Instructions
-1. Save your program file as `TemperatureConverter.java`.
-2. Submit the `.java` file to the assignment portal before the deadline.
-3. Ensure your program compiles and runs without errors.
+            temperature = scanner.nextDouble();
+        } while (true); // Loop exits when valid input is entered
+    }
 
----
-
-## Grading Criteria
-- Correctness of logic (40%)
-- Input validation (20%)
-- Code readability and comments (20%)
-- Output formatting and user experience (20%)
-
-Good luck, and happy coding - Joe! 🚀
+    /**
+     * Performs the temperature conversion based on the user's choice and provided temperature value.
+     *
+     * @param choice The user's choice (1 for Celsius to Fahrenheit, 2 for Fahrenheit to Celsius)
+     * @param temperature The temperature value to be converted
+     * @return The converted temperature
+     */
+    private static double convertTemperature(int choice, double temperature) {
+        switch (choice) {
+            case 1:
+                return (temperature * 9.0 / 5.0) + 32; // Celsius to Fahrenheit
+            case 2:
+                return (temperature - 32) * 5.0 / 9.0; // Fahrenheit to Celsius
+            default:
+                throw new IllegalArgumentException("Invalid choice for conversion"); // Handle unexpected choice
+        }
+    }
+}
 
